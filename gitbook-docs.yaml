@@ -1,5 +1,11 @@
-root: ./
+$schema: https://api.gitbook.com/gitbook-docs.yaml
 
-structure:
-  readme: README.md
-  summary: SUMMARY.md
+site:
+  title: Documentation Agent Smith
+  structure:
+    - type: space
+      key: documentation-agent-smith
+      title: Documentation Agent Smith
+      path: /
+      content:
+        directory: ./
