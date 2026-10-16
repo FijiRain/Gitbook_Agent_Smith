@@ -6,6 +6,7 @@ site:
     - type: space
       key: documentation-agent-smith
       title: Documentation Agent Smith
-      path: /
+      path: docs
+      default: true
       content:
         directory: ./
