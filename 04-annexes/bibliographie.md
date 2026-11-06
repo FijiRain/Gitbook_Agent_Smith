@@ -1,6 +1,6 @@
 # Bibliographie Commentée
 
-Cette bibliographie rassemble toutes les sources utilisées pour rédiger cette documentation (articles de recherche, blogs d'ingénierie, documentations officielles, vidéos et dépôts open-source), enrichies de notes de lecture pour savoir quoi prioriser.
+Cette bibliographie rassemble toutes les sources utilisées pour rédiger cette documentation (articles de recherche, blogs d'ingénierie, documentations officielles, vidéos et dépôts open-source), enrichies de notes de lecture et de résumés de contenu.
 
 **Légende :** 📄 Article de recherche · 📝 Article d'ingénierie · 🎥 Vidéo · 📚 Documentation officielle · 💻 Code / Repo · 📖 Livre
 
@@ -9,11 +9,11 @@ Cette bibliographie rassemble toutes les sources utilisées pour rédiger cette 
 ## 1. Agents IA & LLMs (Fondations)
 
 * 📝 [**Building Effective AI Agents — Anthropic Engineering (déc. 2024)**](https://www.anthropic.com/engineering/building-effective-agents)
-  * **Priorité : ⭐⭐⭐⭐⭐** — Le texte de référence sur ce qui distingue un *workflow* (chemin d'exécution prédéfini) d'un véritable *agent* (le LLM dirige dynamiquement ses actions), l'*Augmented LLM*, et l'annexe sur la conception d'outils (*Agent-Computer Interfaces*).
+  * Le texte de référence sur ce qui distingue un *workflow* (chemin d'exécution prédéfini) d'un véritable *agent* (le LLM dirige dynamiquement ses actions), l'*Augmented LLM*, et l'annexe sur la conception d'outils (*Agent-Computer Interfaces*).
 * 📄 [**A Survey on Large Language Model based Autonomous Agents — Wang et al. (2024, *Frontiers of Computer Science*)**](https://link.springer.com/article/10.1007/s11704-024-40231-1)
-  * **Priorité : ⭐⭐⭐⭐⭐** — Le grand panorama académique qui structure notre Chapitre I : construction de l'agent, mémoire (*short-term / long-term*, formule de scoring récence/pertinence/importance), planification (*Single-Path* vs *Multi-Path*, avec/sans feedback), module d'action et *Capability Acquisition*.
+  * Le grand panorama académique qui structure notre Chapitre I : construction de l'agent, mémoire (*short-term / long-term*, formule de scoring récence/pertinence/importance), planification (*Single-Path* vs *Multi-Path*, avec/sans feedback), module d'action et *Capability Acquisition*.
 * 📄 [**ReAct: Synergizing Reasoning and Acting in Language Models — Yao et al. (ICLR 2023)**](https://arxiv.org/pdf/2210.03629)
-  * **Priorité : ⭐⭐⭐⭐⭐** — L'article fondateur de la boucle `Thought → Action → Observation` qui ancre le raisonnement du modèle dans la vérité terrain de l'environnement.
+  * L'article fondateur de la boucle `Thought → Action → Observation` qui ancre le raisonnement du modèle dans la vérité terrain de l'environnement.
 * 🎥 [**Python: Create a ReAct Agent from Scratch — YouTube**](https://www.youtube.com/watch?v=hKVhRA9kfeM)
   * Implémentation minimale du pattern ReAct en Python pur, sans LangChain ni aucun framework — idéal pour visualiser le squelette de la boucle avant d'y brancher la Sandbox et MCP.
 * 📝 [**A Practical Guide to Building Agents — OpenAI**](https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/)
@@ -30,7 +30,7 @@ Cette bibliographie rassemble toutes les sources utilisées pour rédiger cette 
 ## 2. Code Agents (Agir par du code Python plutôt que par du JSON)
 
 * 📄 [**Executable Code Actions Elicit Better LLM Agents (CodeAct) — Wang et al. (ICML 2024)**](https://arxiv.org/abs/2402.01030)
-  * **Priorité : ⭐⭐⭐⭐⭐** — L'article scientifique qui justifie le choix central d'*Agent Smith* : remplacer les appels d'outils JSON par du code Python exécutable (`Thought → Code → Observation`), permettant d'utiliser des variables persistantes, des boucles et des conditions.
+  * L'article scientifique qui justifie le choix central d'*Agent Smith* : remplacer les appels d'outils JSON par du code Python exécutable (`Thought → Code → Observation`), permettant d'utiliser des variables persistantes, des boucles et des conditions.
 * 📝 [**Introducing smolagents: simple agents that write actions in code — Hugging Face (déc. 2024)**](https://huggingface.co/blog/smolagents)
   * La meilleure vulgarisation de l'approche *CodeAct* : explique pourquoi les LLMs sont bien meilleurs pour écrire du code Python que pour formater du JSON.
 * 💻 [**agents.py — huggingface/smolagents (GitHub)**](https://github.com/huggingface/smolagents/blob/main/src/smolagents/agents.py)
@@ -60,7 +60,7 @@ Cette bibliographie rassemble toutes les sources utilisées pour rédiger cette 
 * 📝 [**Writing Effective Tools for AI Agents — Using AI Agents — Anthropic Engineering (sept. 2025)**](https://www.anthropic.com/engineering/writing-tools-for-agents)
   * Guide concret à lire absolument avant de coder les 9 outils obligatoires du SWE-bench : nommage sans ambiguïté, gestion de la troncature, retours riches en signal.
 * 📄 [**SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering — Yang et al. (NeurIPS 2024)**](https://arxiv.org/abs/2405.15793)
-  * **Priorité : ⭐⭐⭐⭐⭐** — L'article qui a inspiré la liste d'outils obligatoires d'*Agent Smith* (`read_file` avec numéros de lignes, `search_code`, `edit_file`).
+  * L'article qui a inspiré la liste d'outils obligatoires d'*Agent Smith* (`read_file` avec numéros de lignes, `search_code`, `edit_file`).
 * 📄 [**Toolformer: Language Models Can Teach Themselves to Use Tools — Schick et al. (NeurIPS 2023)**](https://arxiv.org/pdf/2302.04761)
   * Un des textes historiques sur l'apprentissage de l'usage d'outils par les LLMs.
 * 🎥 [**JSON-RPC Client — YouTube**](https://www.youtube.com/watch?v=FmeyLUKHI4Q&t=22s)
@@ -75,9 +75,9 @@ Cette bibliographie rassemble toutes les sources utilisées pour rédiger cette 
 ## 5. Benchmarks : MBPP & SWE-bench
 
 * 📄 [**SWE-bench: Can Language Models Resolve Real-World GitHub Issues? — Jimenez et al. (ICLR 2024)**](https://arxiv.org/abs/2310.06770) ([PDF OpenReview](https://openreview.net/pdf?id=VTF8yNQM66))
-  * **Priorité : ⭐⭐⭐⭐⭐** — Le papier fondateur du benchmark SWE-bench : construction des instances, conteneurs Docker, tests `FAIL_TO_PASS` et `PASS_TO_PASS`.
+  * Le papier fondateur du benchmark SWE-bench : construction des instances, conteneurs Docker, tests `FAIL_TO_PASS` et `PASS_TO_PASS`.
 * 📝 [**Raising the Bar on SWE-bench Verified with Claude 3.5 Sonnet — Anthropic (oct. 2024)**](https://www.anthropic.com/news/swe-bench-sonnet)
-  * **Priorité : ⭐⭐⭐⭐⭐** — Étude de cas incontournable dont nous avons extrait les prompts dans la page [Prompts & Schémas d'Outils Utiles](prompts-utiles.md). Montre qu'une architecture simple avec un bon prompt et des outils bien pensés suffit à atteindre l'état de l'art.
+  * Étude de cas incontournable dont nous avons extrait les prompts dans la page [Prompts & Schémas d'Outils Utiles](prompts-utiles.md). Montre qu'une architecture simple avec un bon prompt et des outils bien pensés suffit à atteindre l'état de l'art.
 * 📚 [**SWE-bench Official Leaderboards**](https://www.swebench.com/)
   * Utile pour choisir vos 5 modèles à comparer dans `BENCHMARK_REPORT.md` et observer comment les meilleurs systèmes structurent leurs agents.
 * 📄 [**Program Synthesis with Large Language Models (MBPP) — Austin et al. (2021)**](https://arxiv.org/abs/2108.07732)

@@ -39,16 +39,22 @@ L'objectif est de comprendre le contexte et de tirer des informations pertinente
 
 Trois critères définissent une bonne lecture de mémoire : **la récence (*recency*)**, **la pertinence (*relevance*)** et **l'importance (*importance*)**. On les modélise généralement par la formule de scoring suivante :
 
-$$m^* = \arg\max_{m \in M} \Big( \alpha \, s^{\text{rec}}(q,m) + \beta \, s^{\text{rel}}(q,m) + \gamma \, s^{\text{imp}}(m) \Big)$$
-
-![Formule de scoring de la mémoire (Wang et al.)](../assets/memory_scoring_formula.png)
+$$
+m^* = \arg\max_{m \in M} \Big( \alpha \cdot s^{\text{rec}}(q,m) + \beta \cdot s^{\text{rel}}(q,m) + \gamma \cdot s^{\text{imp}}(m) \Big)
+$$
 
 {% hint style="info" %}
-**Note sur la formule :**
-* $q$ est la requête actuelle (*query*), et $M$ est l’ensemble de toutes les mémoires stockées.
-* $s^{\text{rec}}$, $s^{\text{rel}}$ et $s^{\text{imp}}$ sont les fonctions de scoring mesurant respectivement la **récence**, la **pertinence** et l’**importance** d'un souvenir $m$.
-* Ces fonctions de scoring peuvent être obtenues en calculant la similarité cosinus entre vecteurs d'embeddings (pour $s^{\text{rel}}$), une décroissance temporelle (pour $s^{\text{rec}}$) ou un score attribué par le LLM (pour $s^{\text{imp}}$). Plus leur score est élevé, plus la mémoire $m$ a de valeur (d'où la maximisation sur $m \in M$, malgré la coquille typographique $\arg\min$ présente dans certaines versions du papier source).
-* $\alpha$, $\beta$ et $\gamma$ sont des **paramètres d’équilibrage** : si l'on fixe par exemple $\alpha = 0$ et $\gamma = 0$, on ne sélectionne les souvenirs que selon $\beta$, c'est-à-dire la pure pertinence sémantique.
+**Légende des variables de la formule :**
+
+* **`q`** : la requête actuelle (*query*).
+* **`M`** : l’ensemble de toutes les mémoires stockées.
+* **`m`** : un élément de mémoire candidat dans `M`.
+* **`s_rec(q, m)`** : fonction de scoring mesurant la **récence** de la mémoire `m`.
+* **`s_rel(q, m)`** : fonction de scoring mesurant la **pertinence** de la mémoire `m` par rapport à la requête `q`.
+* **`s_imp(m)`** : fonction de scoring mesurant l’**importance** intrinsèque de la mémoire `m`.
+* **`α`, `β`, `γ`** (*alpha, bêta, gamma*) : les **paramètres d’équilibrage** (poids). Si l'on fixe par exemple `α = 0` et `γ = 0`, on ne sélectionne les souvenirs que selon `β` (la pure pertinence sémantique).
+
+**Interprétation :** Plus le score global d'une mémoire est élevé, plus elle est jugée prioritaire pour l'agent. Ces fonctions de scoring peuvent être obtenues en calculant la similarité cosinus entre vecteurs d'embeddings (pour la pertinence), une décroissance temporelle (pour la récence) ou un score attribué par le LLM (pour l'importance).
 {% endhint %}
 
 #### 2. Écrire la mémoire (*Memory Writing*)
