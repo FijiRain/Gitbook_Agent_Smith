@@ -116,7 +116,7 @@ Dans cette stratégie, les étapes sont organisées comme une **structure en arb
 
 ---
 
-### 2. Planification avec Feedback (la clé d'Agent Smith)
+### 2. Planification avec Feedback (important pour Agent Smith)
 
 Sur des tâches complexes de génie logiciel, les approches sans feedback ci-dessus s'avèrent vite limitées : prévoir l'intégralité d’un plan parfait dès la première seconde sans jamais regarder le code ou lancer un test est quasi impossible. Des étapes intermédiaires peuvent échouer en milieu de parcours et faire s'effondrer tout le plan.
 

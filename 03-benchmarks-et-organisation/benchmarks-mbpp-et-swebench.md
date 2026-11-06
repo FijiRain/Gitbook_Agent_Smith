@@ -83,7 +83,7 @@ Lors de la validation, la moulinette applique le patch Git produit par votre age
 > **Point clé :** La réussite ne repose pas sur l'avis subjectif d'un LLM jugeant que « le code a l'air propre », mais sur la preuve expérimentale reproductible (dans Docker) que le patch résout le problème sans rien casser.
 
 {% hint style="info" %}
-**Repère de contexte 2026 pour nuancer votre `BENCHMARK_REPORT.md` :**
-Début 2026, plusieurs laboratoires (dont OpenAI) ont documenté des biais de contamination des données d'entraînement et des tests parfois trop rigides sur certaines tâches difficiles de *SWE-bench Verified*, ce qui a motivé l'émergence de variantes comme *SWE-bench Pro*.
-Cela ne change rien à ce qui nous est demandé techniquement, mais c'est une **excellente remarque méthodologique à inclure dans votre `BENCHMARK_REPORT.md`** : expliquer avec recul que le score brut sur *SWE-bench Verified* est un indicateur comparatif précieux, mais pas une vérité absolue.
+**Repère de contexte 2026:**
+Début 2026, plusieurs laboratoires (dont OpenAI) ont documenté des biais de contamination des données d'entraînement et des tests parfois trop rigides sur certaines tâches difficiles de *SWE-bench Verified*, ce qui a motivé l'émergence de variantes comme *SWE-bench Pro*. Il y a désormais plein de variantes.
+Le score brut sur *SWE-bench Verified* est donc un indicateur comparatif, mais pas une vérité absolue.
 {% endhint %}

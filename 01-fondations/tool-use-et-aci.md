@@ -40,7 +40,7 @@ En ingénierie logicielle classique, ces différences sont purement cosmétiques
 
 ### Les 3 recommandations pour le format des outils
 
-1. **Donnez au modèle suffisamment de tokens pour « réfléchir »** (*Thought*) avant de générer son appel d'outil et de se retrouver coincé dans un format rigide.
+1. **Donnez au modèle suffisamment de tokens pour « réfléchir »** (*Thought*) avant de générer son appel d'outil et de se retrouver coincé dans un format rigide. (*erratum: attention, ça a tendance à griller les input_tokens de la consigne très rapidement, à faire avec parcimonie pour SWE.*)
 2. **Gardez le format proche de ce que le modèle a naturellement rencontré à l'entraînement** sur Internet (les blocs de code Markdown Python sont beaucoup plus naturels pour un LLM que du code sérialisé en JSON).
 3. **Éliminez toute « surcharge » de formatage** (*formatting overhead*), comme devoir compter précisément des numéros de lignes ou échapper manuellement de longues chaînes de caractères.
 
@@ -79,9 +79,9 @@ Pour démystifier la boucle `Thought → Action → Observation` avant d'y greff
 ```python
 import os
 from dotenv import load_dotenv
-from groq import Groq
+from groq import Groq # Utiliser plutot la lib OpenAI
 
-load_dotenv()
+load_dotenv() # Charge les clés API
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 class Agent:
@@ -92,7 +92,7 @@ class Agent:
     def __call__(self, user_message: str) -> str:
         if user_message:
             self.messages.append({"role": "user", "content": user_message})
-        result = self.execute()
+        result = self.execute() # appel API => modèle
         self.messages.append({"role": "assistant", "content": result})
         return result
 
@@ -100,7 +100,7 @@ class Agent:
         completion = self.client.chat.completions.create(
             messages=self.messages,
             model="openai/gpt-oss-120b",
-            stop=["PAUSE", "<end_code>"],  # Empêche le LLM d'halluciner l'Observation !
+            stop=["PAUSE", "<end_code>", "Observation:"],  # Empêche le LLM d'halluciner l'Observation !
         )
         return completion.choices[0].message.content
 ```

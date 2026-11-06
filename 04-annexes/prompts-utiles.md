@@ -63,7 +63,7 @@ Pour concevoir la description de vos outils MCP (et tout particulièrement `read
 }
 ```
 
-### Ce qu'il faut retenir de ce schéma pour votre `edit_file(filepath, old_str, new_str)` :
+### Ce qu'il faut retenir de ce schéma pour `edit_file(filepath, old_str, new_str)` :
 * Avertir explicitement le LLM que `old_str` doit correspondre **exactement** (espaces et indentation compris) au contenu lu via `read_file`.
 * Refuser le remplacement (et renvoyer un message d'erreur clair au LLM !) si `old_str` n'apparaît pas dans le fichier **ou** s'il apparaît plusieurs fois (en invitant alors le modèle à inclure 2 ou 3 lignes de contexte supplémentaires autour de la ligne à modifier pour rendre `old_str` unique).
 * Vérifier la syntaxe Python du fichier modifié (`ast.parse`) juste après l'édition afin d'avertir immédiatement le LLM s'il a introduit une `SyntaxError` ou une `IndentationError` !

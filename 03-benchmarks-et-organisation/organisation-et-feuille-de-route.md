@@ -1,7 +1,7 @@
 # Organisation d'Équipe & Feuille de Route
 
 Dans cette partie, nous voyons comment décomposer concrètement le projet **Agent Smith** pour travailler efficacement en groupe de 3 :
-1. **Deux approches de répartition du travail** (Division Architecturale vs Division par Sprints Agiles) ;
+1. **Deux approches de répartition du travail** (Division Architecturale vs Division par Blocs) ;
 2. **Une feuille de route (*Roadmap*) séquentielle** pour savoir exactement dans quel ordre attaquer les briques techniques sans se disperser.
 
 ---
@@ -12,15 +12,15 @@ Voici deux manières complémentaires d'organiser une équipe de trois développ
 
 {% tabs %}
 {% tab title="Approche 1 — Division Architecturale (Par Couche)" %}
-### Approche 1 : Division Structurale Architecturale (Horizontal)
+### Approche 1 : Division Structurale Architecturale
 
 Chaque membre devient le référent d'un des trois grands sous-systèmes du sujet :
 
 | Responsabilité Architecturale | Périmètre Technique Détaillé | Livrables Logiciels Exigés | Points de Focalisation (Focus) |
 | :--- | :--- | :--- | :--- |
-| **Développeur 1 : L'Orchestrateur** *(Le Cerveau)* | Interfaçage avec les API LLM (OpenRouter, Groq, etc.), gestion du parsing multi-format, rotation des clés API, et orchestration de la boucle `Thought → Code → Observation`. | Logique de retries, extracteur de code (Python, XML, Hermes, ReAct), suivi des limites globales (tokens/itérations/temps), modèles `StepMetrics` & `SolutionOutput`, ingénierie du prompt système et `stop_sequences`. | Fiabilité des requêtes réseau, robustesse du parsing face aux hallucinations du LLM, et optimisation de la fenêtre de contexte. |
-| **Développeur 2 : La Sandbox** *(Le Gardien)* | Création de l'environnement Python restreint (CLI REPL + moteur d'exécution). Implémentation du contrôle des ressources, analyse statique de l'AST, et isolation des chemins d'accès. | Validateur d'AST, restriction de `__builtins__`, blocage réseau, gestionnaire de timeout d'exécution (`30s` par bloc) et limite RAM (`512 Mo`), client MCP interne, génération dynamique du manuel, et injection de `final_answer`. | Sécurité absolue de l'exécution (passage de `exam_sandbox.sh`), interception chirurgicale des erreurs (*Tracebacks* explicites), et gestion propre des processus fils. |
-| **Développeur 3 : Écosystème MCP & Outils** *(Les Bras)* | Développement des serveurs MCP (transports `stdio` et `HTTP`) et implémentation des outils de manipulation de fichiers, recherche de code et exécution de tests. | Fichiers `mcp_tools_mbpp.py` et `mcp_tools_swebench.py` à la racine du dépôt. Orchestration et nettoyage des conteneurs Docker pour l'épreuve SWE-bench. | Maîtrise du protocole MCP / JSON-RPC, implémentation des 9 outils obligatoires au format exact (`cat -n`, `grep`), et génération de patchs Git conformes. |
+| **Développeur 1 : L'Orchestrateur** | Interfaçage avec les API LLM (OpenRouter, Groq, etc.), gestion du parsing multi-format, rotation des clés API, et orchestration de la boucle `Thought → Code → Observation`. | Logique de retries, extracteur de code (Python, XML, Hermes, ReAct), suivi des limites globales (tokens/itérations/temps), modèles `StepMetrics` & `SolutionOutput`, ingénierie du prompt système et `stop_sequences`. | Fiabilité des requêtes réseau, robustesse du parsing face aux hallucinations du LLM, et optimisation de la fenêtre de contexte. |
+| **Développeur 2 : La Sandbox** | Création de l'environnement Python restreint (CLI REPL + moteur d'exécution). Implémentation du contrôle des ressources, analyse statique de l'AST, et isolation des chemins d'accès. | Validateur d'AST, restriction de `__builtins__`, blocage réseau, gestionnaire de timeout d'exécution (`30s` par bloc) et limite RAM (`512 Mo`), client MCP interne, génération dynamique du manuel, et injection de `final_answer`. | Sécurité absolue de l'exécution (passage de `exam_sandbox.sh`), interception chirurgicale des erreurs (*Tracebacks* explicites), et gestion propre des processus fils. |
+| **Développeur 3 : Écosystème MCP & Outils** | Développement des serveurs MCP (transports `stdio` et `HTTP`) et implémentation des outils de manipulation de fichiers, recherche de code et exécution de tests. | Fichiers `mcp_tools_mbpp.py` et `mcp_tools_swebench.py` à la racine du dépôt. Orchestration et nettoyage des conteneurs Docker pour l'épreuve SWE-bench. | Maîtrise du protocole MCP / JSON-RPC, implémentation des 9 outils obligatoires au format exact (`cat -n`, `grep`), et génération de patchs Git conformes. |
 
 #### Détail des rôles dans cette configuration
 
@@ -29,19 +29,19 @@ Chaque membre devient le référent d'un des trois grands sous-systèmes du suje
 * **Le Développeur 3 (MCP & Outils)** agit comme l'expert du monde extérieur et des protocoles. Il maîtrise le cycle de vie MCP (`stdio` et `Streamable HTTP`) et développe les serveurs autonomes capables d'interagir avec les fichiers ou les conteneurs Docker exigés par SWE-bench (`${TESTBED_PATH}`). Il traduit les spécifications des outils en fonctions fiables dotées d'excellentes *docstrings* (ACI).
 {% endtab %}
 
-{% tab title="Approche 2 — Division par Sprints Agiles (Vertical)" %}
-### Approche 2 : Division par Itérations Agiles (Fonctionnalités de bout en bout)
+{% tab title="Approche 2 — Division par Blocs" %}
+### Approche 2 : Division par Blocs (Fonctionnalités de bout en bout)
 
-Plutôt que de séparer le travail uniquement par couche technique isolée (au risque que chacun code dans son coin pendant 3 semaines sans pouvoir rien tester ensemble), l'équipe avance par **paliers fonctionnels verticaux** de complexité croissante :
+Plutôt que de séparer le travail uniquement par couche technique isolée (au risque que chacun code dans son coin pendant 3 semaines sans pouvoir rien tester ensemble), l'équipe avance par **paliers fonctionnels** de complexité croissante :
 
 | Itération (Sprint) | Objectif Stratégique Global | Tâches Assignées (D1, D2, D3) | Livrables du Sprint |
 | :--- | :--- | :--- | :--- |
-| **Sprint 1 : Le MVP MBPP** *(Semaines 1–2)* | Validation du concept central et premier succès de bout en bout sur une tâche algorithmique simple. | **D1 :** Boucle itérative basique et prompt initial.<br>**D2 :** Mécanisme `exec()` isolé basique, `final_answer()` et capture `stdout`/`stderr`.<br>**D3 :** Premier outil `run_tests` pour MBPP. | Un agent capable de lire un fichier JSON MBPP, de générer du code, de lancer les tests et de produire une première solution valide. |
-| **Sprint 2 : Sécurisation & Standardisation MCP** *(Semaines 3–4)* | Respect strict des normes du sujet, implémentation de la sécurité Sandbox et du protocole MCP complet. | **D1 :** Implémentation complète de `StepMetrics`, `SolutionOutput`, rotation de clés et parseur multi-format.<br>**D2 :** Analyse AST, blocage des builtins/imports/chemins/réseau, timeouts, REPL `uv run sandbox`.<br>**D3 :** Serveur `mcp_tools_mbpp.py` (`stdio` & `HTTP`) et découverte dynamique. | Une architecture résiliente et sécurisée qui valide `exam_sandbox.sh` et `exam_mbpp.sh` (≥ 4/5). |
-| **Sprint 3 : L'Épreuve SWE-bench & Benchmark** *(Semaines 5–7)* | Confrontation aux dépôts réels dans Docker, navigation dans le code et campagne de benchmark multi-modèles. | **D1 :** Optimisation du prompt SWE-bench, gestion des contextes longs (`300k` tokens), campagne de tests des 5 modèles et rédaction de `BENCHMARK_REPORT.md`.<br>**D2 :** Intégration de la Sandbox avec le workflow Docker et feedbacks d'erreur avancés.<br>**D3 :** Serveur `mcp_tools_swebench.py` avec les 9 outils obligatoires et gestion propre du cycle de vie des conteneurs Docker. | Résolution autonome d'Issues GitHub réelles (≥ 2/3 sur `exam_swebench.sh`), génération de patchs Git propres et rapport d'évaluation complet. |
+| **Sprint 1 : Le MVP MBPP** | Validation du concept central et premier succès de bout en bout sur une tâche algorithmique simple. | **D1 :** Boucle itérative basique et prompt initial.<br>**D2 :** Mécanisme `exec()` isolé basique, `final_answer()` et capture `stdout`/`stderr`.<br>**D3 :** Premier outil `run_tests` pour MBPP. | Un agent capable de lire un fichier JSON MBPP, de générer du code, de lancer les tests et de produire une première solution valide. |
+| **Sprint 2 : Sécurisation & Standardisation MCP**| Respect strict des normes du sujet, implémentation de la sécurité Sandbox et du protocole MCP complet. | **D1 :** Implémentation complète de `StepMetrics`, `SolutionOutput`, rotation de clés et parseur multi-format.<br>**D2 :** Analyse AST, blocage des builtins/imports/chemins/réseau, timeouts, REPL `uv run sandbox`.<br>**D3 :** Serveur `mcp_tools_mbpp.py` (`stdio` & `HTTP`) et découverte dynamique. | Une architecture résiliente et sécurisée qui valide `exam_sandbox.sh` et `exam_mbpp.sh` (≥ 4/5). |
+| **Sprint 3 : L'Épreuve SWE-bench & Benchmark** | Confrontation aux dépôts réels dans Docker, navigation dans le code et campagne de benchmark multi-modèles. | **D1 :** Optimisation du prompt SWE-bench, gestion des contextes longs (`300k` tokens), campagne de tests des 5 modèles et rédaction de `BENCHMARK_REPORT.md`.<br>**D2 :** Intégration de la Sandbox avec le workflow Docker et feedbacks d'erreur avancés.<br>**D3 :** Serveur `mcp_tools_swebench.py` avec les 9 outils obligatoires et gestion propre du cycle de vie des conteneurs Docker. | Résolution autonome d'Issues GitHub réelles (≥ 2/3 sur `exam_swebench.sh`), génération de patchs Git propres et rapport d'évaluation complet. |
 
-#### Pourquoi cette approche fonctionne très bien ?
-Elle garantit que l'équipe dispose **en permanence d'une version fonctionnelle et testable de bout en bout**, ce qui élimine l'effet tunnel. Dès la fin du Sprint 1, l'agent tourne sur MBPP ; le Sprint 2 verrouille la sécurité et le standard MCP ; le Sprint 3 concentre toute l'énergie sur le défi majeur du SWE-bench et l'étude comparative des modèles.
+#### But de cette approche
+L'équipe dispose **en permanence d'une version fonctionnelle et testable de bout en bout**, ce qui élimine l'effet tunnel. Dès la fin du Sprint 1, l'agent tourne sur MBPP ; le Sprint 2 verrouille la sécurité et le standard MCP ; le Sprint 3 concentre toute l'énergie sur le défi majeur du SWE-bench et l'étude comparative des modèles.
 {% endtab %}
 {% endtabs %}
 
@@ -51,7 +51,7 @@ Elle garantit que l'équipe dispose **en permanence d'une version fonctionnelle 
 
 Voici l'ordre logique recommandé pour construire le projet brique par brique sans se disperser :
 
-### Étape 0 — Fondations et Sanctuarisation de l'Infrastructure
+### Étape 0 — Fondations de l'Infrastructure
 Avant d'écrire la moindre ligne de code impliquant un appel réseau vers un LLM, l'infrastructure logicielle doit être posée proprement :
 1. Initialiser le dépôt avec **`uv`** et **Python 3.10** (exigences strictes du chapitre IV.1).
 2. Configurer le fichier **`.env`** pour le chargement sécurisé des clés API et verrouiller immédiatement le **`.gitignore`** (pour exclure `.env`, caches, outputs générés et images).
