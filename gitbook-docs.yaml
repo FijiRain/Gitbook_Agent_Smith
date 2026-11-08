@@ -1,6 +1,6 @@
 $schema: https://api.gitbook.com/gitbook-docs.yaml
 site:
-  title: Documentation Agent Smith
+  title: Agent Smith - Documentation & État de l'art
   structure:
     - type: space
       key: documentation-agent-smith
