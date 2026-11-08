@@ -27,3 +27,4 @@
 * [Glossaire](04-annexes/glossaire.md)
 * [Bibliographie Commentée](04-annexes/bibliographie.md)
 * [Prompts & Schémas d'Outils Utiles](04-annexes/prompts-utiles.md)
+* [Remerciements & Transparence IA](04-annexes/remerciements-et-ia.md)
